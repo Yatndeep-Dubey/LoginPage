@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Auth Demo</title>
+        <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        rel="stylesheet"
+        />
+        <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet"
+        />
+        <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.css"
+        rel="stylesheet"
+        />
+        <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js"
+        ></script>
+        
+        <link href="./index.css" rel="stylesheet" />
+    </head>
+    <body class="d-flex justify-content-center p-5">
+      <div class="card">
+          <div class="card-header">
+              <center><h3>Login Form</h3></center>
+          </div>
+          <form class="card-body px-5 py-4" id="loginForm">
+              <center><small><span id="error" style="color: red"></span></small></center>
+              <center><label class="custom-field">
+                  <input id="email" type="text" class="input" required />
+                  <span class="placeholder">Email Id</span>
+              </label><br />
+              <label class="custom-field">
+                  <input id="password" type="password" class="input" required />
+                  <span class="placeholder">Password</span>
+              </label></center><br /><br/>
+              <a href="#" id="forgotpass">Forgot Password</a>
+              <center><button type="submit" id="signin" class="btn btn-primary">Login</button>
+              <button id="signup" class="btn btn-secondary">Sign Up</button>
+              </center>
+          </form>
+      </div>
+      <script type="module" >
+      
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
+
+const firebaseConfig = {
+   apiKey: "AIzaSyAmwhu_4mfItC6IJi9Pf0zWVQateN9hbl4",
+   authDomain: "dreams1-dbdfa.firebaseapp.com",
+   projectId: "dreams1-dbdfa",
+   storageBucket: "dreams1-dbdfa.appspot.com",
+   messagingSenderId: "477480587073",
+   appId: "1:477480587073:web:a54523a942da387d16dbc0",
+   measurementId: "G-M4D0J5FTRP"
+}
+
+// Initialize Firebase
+const app= initializeApp(firebaseConfig);
+const auth=getAuth(app);
+document.getElementById("loginForm").addEventListener("submit",(event)=>{
+    event.preventDefault()
+})
+document.getElementById("signup").addEventListener('click',function()
+{
+  
+   const email=document.getElementById("email").value;
+   const password=document.getElementById("password").value;
+   createUserWithEmailAndPassword(auth, email, password)
+ .then((userCredential) => {
+   // Signed in 
+   const user = userCredential.user;
+   console.log("Created");
+   // ...
+ })
+ .catch((error) => {
+   const errorCode = error.code;
+   const errorMessage = error.message;
+   console.log(errorCode+errorMessage);
+   
+   // ..
+ });
+});
+document.getElementById("signin").addEventListener('click',function()
+{
+const email=document.getElementById("email").value;
+   const password=document.getElementById("password").value;
+   signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log("signedin");
+        location.replace("welcome.html");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode+errorMessage);
+        alert("Invalid Credentials");
+      });
+
+});
+      </script>
+  </body>
+  
+</html>
